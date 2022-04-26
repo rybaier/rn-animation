@@ -13,14 +13,28 @@ const Deck = ({ data, renderCard }) => {
         onPanResponderRelease: () => {
 
         }
+        
     })
+    
+
+
+    const getCardStyle = () => {
+        const rotate = position.x.interpolate({
+            inputRange: [-500, 0, 500],
+            outputRange: ['120deg', '0deg', '120deg']
+        })
+
+        return {
+            ...position.getLayout(),
+            transform: [{ rotate }]
+        }}
 
       const renderCards = () => data.map((item, index) => {
             if (index === 0) {
                 return(
                     <Animated.View 
                     key = {item.id}
-                    style= {position.getLayout()} 
+                    style= {getCardStyle()} 
                     {...panResponder.panHandlers}>
                         { renderCard(item)}
                     </Animated.View>
