@@ -15,11 +15,11 @@ const Deck = ({ data, renderCard }) => {
         }
     })
 
-      const renderCards = () => { 
-          data.map((item, index) => {
+      const renderCards = () => data.map((item, index) => {
             if (index === 0) {
                 return(
                     <Animated.View 
+                    key = {item.id}
                     style= {position.getLayout()} 
                     {...panResponder.panHandlers}>
                         { renderCard(item)}
@@ -27,8 +27,8 @@ const Deck = ({ data, renderCard }) => {
                 )
             }
             return renderCard(item)
-        });
-    }
+      });
+    
       
     return <View>{renderCards()}</View>;
 }
