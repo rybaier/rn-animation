@@ -14,12 +14,14 @@ const Deck = ({ data, renderCard }) => {
             position.setValue({ x: gesture.dx, y: gesture.dy })
         },
         onPanResponderRelease: () => {
-
+            resetPosition()
         }
         
     })
     
-
+    const resetPosition = () => {
+        
+    }
 
     const getCardStyle = () => {
         const rotate = position.x.interpolate({
