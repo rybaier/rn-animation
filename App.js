@@ -26,11 +26,29 @@ const renderCard = (item) => {
     </Card>
   )
 }
+const renderNoMoreCards = () => {
+  return(
+    <Card>
+      <Card.Title> All Done!</Card.Title>
+      <Text> There's no more cards to view</Text>
+      <Button icon={{name: 'code'}} backgroundColor='#03A9F4' title='Get More!' />
+    </Card>
+  )
+}
+const onSwipeRight = () => {
+
+}
+const onSwipeLeft = () => {
+
+}
+
 export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Deck data ={ DATA } renderCard= { renderCard }/>
+      <Deck data ={ DATA } renderCard= { renderCard }
+      onSwipeLeft={ onSwipeLeft } onSwipeRight = { onSwipeRight }
+      renderNoMoreCards = { renderNoMoreCards }/>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
