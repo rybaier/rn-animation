@@ -26,9 +26,9 @@ const renderCard = (item) => {
     </Card>
   )
 }
-const renderNoMoreCards = () => {
+const renderNoMoreCards = (item) => {
   return(
-    <Card>
+    <Card key={'empty card'}>
       <Card.Title> All Done!</Card.Title>
       <Text> There's no more cards to view</Text>
       <Button icon={{name: 'code'}} backgroundColor='#03A9F4' title='Get More!' />

@@ -3,8 +3,10 @@ import { View, Animated, Text, StyleSheet, Dimensions,
     PanResponder, PanResponderCallbacks } from 'react-native'
 import { Card, Button, Image } from 'react-native-elements'
 
+const SCREEN_WIDTH = Dimensions.get('window').width
+
 const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }) => {
-    const SCREEN_WIDTH = Dimensions.get('window').width
+    
     const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH
     const SWIPEOUT_DURATION = 250
     const [index, setIndex]  = useState(0)
@@ -68,29 +70,45 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
         }}
 
       const renderCards = () => data.map((item, i) => {
-     
-          if (i < index){ return null }
+          if ( index >= data.length) { return renderNoMoreCards() }
 
-            if (i === index) {
+          if (i < index) { return null }
+
+          if (i === index) {
                 return(
                     <Animated.View 
                     key = {item.id}
-                    style= {getCardStyle()} 
+                    style= {[ getCardStyle(), styles.cardStyle ]} 
                     {...panResponder.panHandlers}>
                         { renderCard(item)}
                     </Animated.View>
                 )
             }
-            return renderCard(item)
-      });
+            return (
+                <Animated.View
+                 key={item.id} 
+                style={[styles.cardStyle, { top: 20 * ( i - index ) }]}>
+                    { renderCard(item) }
+                </Animated.View>
+            )
+      }).reverse();
     
-      const areThereCards = () => {
-         index >= data.length ? renderNoMoreCards : renderCards
-      }
+    //   const areThereCards = () => {
+    //      index >= data.length ? renderNoMoreCards : renderCards
+    //   }
       
     return <View>{renderCards()}</View>;
 }
-
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+    },
+    cardStyle: {
+        position: 'absolute',
+        width: SCREEN_WIDTH,
+    }
+})
 export default Deck
 
 
