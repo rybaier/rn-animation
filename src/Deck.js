@@ -19,13 +19,16 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
         },
         onPanResponderRelease: (event, gesture) => {
             if (gesture.dx > SWIPE_THRESHOLD){
+                console.log(gesture.dx)
                 forseSwipe('right')
                 console.log('swipe right')
             } else if (gesture.dx < SWIPE_THRESHOLD) {
+                console.log(SWIPE_THRESHOLD)
                 forseSwipe('left')
                 console.log('swipe left')
             } else {
                 resetPosition()
+                console.log('reset')
             }
         }
         
@@ -34,7 +37,8 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
     const forseSwipe = (direction) => {
         const x = direction ==='right' ? SCREEN_WIDTH : -SCREEN_WIDTH
         Animated.timing(position, {toValue: { x: x, y: 0 }, 
-        duration: SWIPEOUT_DURATION }).start(() => onSwipeComplete(direction))
+        duration: SWIPEOUT_DURATION, 
+        useNativeDriver: false}).start(() => onSwipeComplete(direction))
     }
 
     const onSwipeComplete = (direction) => {
@@ -47,7 +51,8 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
     }
 
     const resetPosition = () => {
-        Animated.spring(position, {toValue: {x: 0, y:0 }}).start()
+        Animated.spring(position, {toValue: {x: 0, y:0 },
+        useNativeDriver: false}).start()
     }
 
 
