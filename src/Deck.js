@@ -69,8 +69,13 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
             transform: [{ rotate }]
         }}
 
+    const areThereCards = () => {
+        console.log(index, data.length)
+         index >= data.length ? renderNoMoreCards() : renderCards()
+      }
+      
       const renderCards = () => data.map((item, i) => {
-          if ( index >= data.length) { return renderNoMoreCards() }
+        //   if ( index >= data.length) { return renderNoMoreCards() }
 
           if (i < index) { return null }
 
@@ -93,11 +98,8 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
             )
       }).reverse();
     
-    //   const areThereCards = () => {
-    //      index >= data.length ? renderNoMoreCards : renderCards
-    //   }
-      
-    return <View>{renderCards()}</View>;
+  
+    return <View>{index >= data.length ? renderNoMoreCards() : renderCards()}</View>;
 }
 const styles = StyleSheet.create({
     container: {
