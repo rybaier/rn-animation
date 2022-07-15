@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Animated, Text, StyleSheet, Dimensions, 
+import React, { useState, useEffect } from 'react'
+import { View, Animated, Text, StyleSheet, Dimensions, LayoutAnimation, UIManager,
     PanResponder, PanResponderCallbacks } from 'react-native'
 import { Card, Button, Image } from 'react-native-elements'
 
@@ -24,7 +24,7 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
                 console.log(gesture.dx)
                 forseSwipe('right')
                 console.log('swipe right')
-            } else if (gesture.dx < SWIPE_THRESHOLD) {
+            } else if (gesture.dx < (SWIPE_THRESHOLD * -1)) {
                 console.log(SWIPE_THRESHOLD)
                 forseSwipe('left')
                 console.log('swipe left')
@@ -36,6 +36,11 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
         
     })
     
+    useEffect (() => {
+        setIndex(0)
+    }, [ data ])
+
+    
     const forseSwipe = (direction) => {
         const x = direction ==='right' ? SCREEN_WIDTH : -SCREEN_WIDTH
         Animated.timing(position, {toValue: { x: x, y: 0 }, 
@@ -44,12 +49,14 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
     }
 
     const onSwipeComplete = (direction) => {
-        // const { onSwipeLeft, onSwipeRight } 
         const item = data[index]
 
         direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item) 
         setIndex(index + 1)
+        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
+        LayoutAnimation.spring()
         position.setValue({ x: 0, y: 0 })
+
     }
 
     const resetPosition = () => {
@@ -69,10 +76,10 @@ const Deck = ({ data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards }
             transform: [{ rotate }]
         }}
 
-    const areThereCards = () => {
-        console.log(index, data.length)
-         index >= data.length ? renderNoMoreCards() : renderCards()
-      }
+    // const areThereCards = () => {
+    //     console.log(index, data.length)
+    //      index >= data.length ? renderNoMoreCards() : renderCards()
+    //   }
       
       const renderCards = () => data.map((item, i) => {
         //   if ( index >= data.length) { return renderNoMoreCards() }
